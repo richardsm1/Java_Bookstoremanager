@@ -1,6 +1,7 @@
 package com.rsm.bookstoremanager.users.entity;
 
 import com.rsm.bookstoremanager.books.entity.Book;
+import com.rsm.bookstoremanager.entity.Auditable;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -9,7 +10,7 @@ import java.util.List;
 
 @Data
 @Entity
-public class User {
+public class User extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

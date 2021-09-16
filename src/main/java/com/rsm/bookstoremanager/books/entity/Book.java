@@ -1,6 +1,7 @@
 package com.rsm.bookstoremanager.books.entity;
 
 import com.rsm.bookstoremanager.author.entity.Author;
+import com.rsm.bookstoremanager.entity.Auditable;
 import com.rsm.bookstoremanager.publishers.entity.Publisher;
 import com.rsm.bookstoremanager.users.entity.User;
 import lombok.Data;
@@ -9,7 +10,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
-public class Book {
+public class Book extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +36,4 @@ public class Book {
 
     @ManyToOne(cascade = {CascadeType.MERGE})
     private User user;
-
-
-
 }

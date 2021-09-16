@@ -1,12 +1,13 @@
 package com.rsm.bookstoremanager.author.entity;
 
 import com.rsm.bookstoremanager.books.entity.Book;
+import com.rsm.bookstoremanager.entity.Auditable;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class Author {
+public class Author extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,7 +18,6 @@ public class Author {
 
     @Column(columnDefinition = "integer default 0")
     private int age;
-
 
     @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
     private List<Book> books;
