@@ -2,10 +2,12 @@ package com.rsm.bookstoremanager.author.entity;
 
 import com.rsm.bookstoremanager.books.entity.Book;
 import com.rsm.bookstoremanager.entity.Auditable;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.util.List;
 
+@Data
 @Entity
 public class Author extends Auditable {
 
