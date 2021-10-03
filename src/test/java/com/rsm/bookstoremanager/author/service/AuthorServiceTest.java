@@ -5,7 +5,6 @@ import com.rsm.bookstoremanager.author.dto.AuthorDTO;
 import com.rsm.bookstoremanager.author.mapper.AuthorMapper;
 import com.rsm.bookstoremanager.author.repository.AuthorRepository;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -15,7 +14,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 public class AuthorServiceTest {
 
     private final AuthorMapper authorMapper = AuthorMapper.INSTANCE;
-
 
     @Mock
     private AuthorRepository authorRepository;
@@ -27,7 +25,7 @@ public class AuthorServiceTest {
 
     @BeforeEach
     void setUp() {
-        authorDTOBuilder = authorDTOBuilder.builder().build();
+        authorDTOBuilder = AuthorDTOBuilder.builder().build();
         AuthorDTO authorDTO = authorDTOBuilder.buildAuthorDTO();
     }
 }

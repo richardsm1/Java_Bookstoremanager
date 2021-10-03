@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class BookController {
 
     @GetMapping
-    public String hello(){
-        return "Hello, Bookstore Manager, I am running an example with PR!";
+    public String hello() {
+        return "Ricardo";
     }
 }
