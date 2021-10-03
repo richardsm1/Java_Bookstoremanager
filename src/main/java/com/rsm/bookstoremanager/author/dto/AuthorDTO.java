@@ -21,6 +21,5 @@ public class AuthorDTO {
     private String name;
 
     @NotNull
-    @Size(max = 120)
     private Integer age;
 }
