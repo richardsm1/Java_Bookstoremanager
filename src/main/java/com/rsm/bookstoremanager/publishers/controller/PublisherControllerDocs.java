@@ -1,7 +1,22 @@
 package com.rsm.bookstoremanager.publishers.controller;
 
+import com.rsm.bookstoremanager.publishers.dto.PublisherDTO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import javax.validation.Valid;
 
 @Api("Publishers management")
 public interface PublisherControllerDocs {
+
+    @ApiOperation(value = "Publisher creation operation")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Success publisher creation"),
+            @ApiResponse(code = 400, message = "Missig required filds, wrong field range or used already registered on system")
+    })
+    PublisherDTO create(PublisherDTO publisherDTO);
 }
