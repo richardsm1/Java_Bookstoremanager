@@ -4,6 +4,7 @@ import com.rsm.bookstoremanager.publishers.dto.PublisherDTO;
 import com.rsm.bookstoremanager.publishers.entity.Publisher;
 import com.rsm.bookstoremanager.publishers.entity.PublisherMapper;
 import com.rsm.bookstoremanager.publishers.exception.PublisherAlreadyExistsException;
+import com.rsm.bookstoremanager.publishers.exception.PublisherNotFoundException;
 import com.rsm.bookstoremanager.publishers.repository.PublisherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,10 +29,16 @@ public class PublisherService {
         return publisherMapper.toDTO(createdPublisher);
     }
 
+    public PublisherDTO findById(Long id) {
+        return publisherRepository.findById(id)
+                .map(publisherMapper::toDTO)
+                .orElseThrow(() -> new PublisherNotFoundException(id));
+    }
+
     private void verifyExists(String name, String code) {
         Optional<Publisher> duplicatepublisher = publisherRepository.findByNameOrCode(name, code);
 
-        if(duplicatepublisher.isPresent()){
+        if (duplicatepublisher.isPresent()) {
             throw new PublisherAlreadyExistsException(name, code);
         }
     }
