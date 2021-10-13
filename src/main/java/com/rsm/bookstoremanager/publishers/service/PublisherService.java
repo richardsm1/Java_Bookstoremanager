@@ -9,13 +9,15 @@ import com.rsm.bookstoremanager.publishers.repository.PublisherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PublisherService {
     private final static PublisherMapper publisherMapper = PublisherMapper.INSTANCE;
 
-    private PublisherRepository publisherRepository;
+    private final PublisherRepository publisherRepository;
 
     @Autowired
     public PublisherService(PublisherRepository publisherRepository) {
@@ -33,6 +35,13 @@ public class PublisherService {
         return publisherRepository.findById(id)
                 .map(publisherMapper::toDTO)
                 .orElseThrow(() -> new PublisherNotFoundException(id));
+    }
+
+    public List<PublisherDTO> findAll() {
+        return publisherRepository.findAll()
+                .stream()
+                .map(publisherMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
     private void verifyExists(String name, String code) {
