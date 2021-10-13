@@ -25,7 +25,7 @@ public interface PublisherControllerDocs {
     @ApiOperation(value = "Find publisher by id operation")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success publisher found"),
-            @ApiResponse(code = 404, message = "Publisher not found errorp")
+            @ApiResponse(code = 404, message = "Publisher not found error")
     })
     PublisherDTO findById(@PathVariable Long id);
 
@@ -35,4 +35,11 @@ public interface PublisherControllerDocs {
 
     })
     List<PublisherDTO> findAll();
+
+    @ApiOperation(value = "Delete publisher by id operation")
+    @ApiResponses(value = {
+            @ApiResponse(code = 204, message = "Success publisher deleted"),
+            @ApiResponse(code = 404, message = "Publisher not found error")
+    })
+    void delete(Long id);
 }
