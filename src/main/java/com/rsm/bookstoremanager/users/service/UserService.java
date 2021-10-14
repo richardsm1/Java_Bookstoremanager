@@ -7,10 +7,14 @@ import com.rsm.bookstoremanager.users.exception.UserAlreadyExistsException;
 import com.rsm.bookstoremanager.users.exception.UserNotFoundException;
 import com.rsm.bookstoremanager.users.mapper.UserMapper;
 import com.rsm.bookstoremanager.users.repository.UserRepository;
+import com.rsm.bookstoremanager.users.utils.MessageDTOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+
+import static com.rsm.bookstoremanager.users.utils.MessageDTOUtils.creationMessage;
+import static com.rsm.bookstoremanager.users.utils.MessageDTOUtils.updatedMessage;
 
 @Service
 public class UserService {
@@ -25,28 +29,40 @@ public class UserService {
     }
 
     public MessageDTO create(UserDTO userToCreateDTO) {
-        verifyIfExists(userToCreateDTO.getEmail(), userToCreateDTO.getUsername());
+        verifyAndGetIfExists(userToCreateDTO.getEmail(), userToCreateDTO.getUsername());
         User userToCreate = userMapper.toModel(userToCreateDTO);
         User createdUser = userRepository.save(userToCreate);
-        String createdUserMessage = String.format("User %s with ID %s successfully created", createdUser.getUsername(), createdUser.getId());
-        return MessageDTO.builder().message(createdUserMessage).build();
+        return creationMessage(createdUser, "created");
     }
 
-    public void delete(Long id){
-        verifyIfExists(id);
+    public MessageDTO update(Long id, UserDTO userToUpdateDTO) {
+        User foundUser = verifyAndGetIfExists(id);
+
+        userToUpdateDTO.setId(foundUser.getId());
+        User userToUpdate = userMapper.toModel(userToUpdateDTO);
+        userToUpdate.setCreatedDate(foundUser.getCreatedDate());
+
+        User updatedUser = userRepository.save(userToUpdate);
+        return updatedMessage(updatedUser, "updated");
+    }
+
+    public void delete(Long id) {
+        verifyAndGetIfExists(id);
         userRepository.deleteById(id);
     }
 
-    private void verifyIfExists(Long id) {
-        userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+    private User verifyAndGetIfExists(Long id) {
+        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
     }
 
-    private void verifyIfExists(String email, String username) {
+    private void verifyAndGetIfExists(String email, String username) {
         Optional<User> foundUser = userRepository.findByEmailOrUsername(email, username);
         if (foundUser.isPresent()) {
             throw new UserAlreadyExistsException(email, username);
         }
     }
+
+
 
 
 }

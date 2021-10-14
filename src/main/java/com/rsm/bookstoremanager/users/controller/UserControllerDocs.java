@@ -13,7 +13,7 @@ public interface UserControllerDocs {
     @ApiOperation(value = "User creation operation")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Success user creation"),
-            @ApiResponse(code = 400, message = "Missing required filed, or an error on validation filed rules")
+            @ApiResponse(code = 400, message = "Missing required field, or an error on validation field rules")
     })
     MessageDTO create(UserDTO userToCreateDTO);
 
@@ -23,4 +23,11 @@ public interface UserControllerDocs {
             @ApiResponse(code = 404, message = "User with informed id in the system")
     })
     void delete(Long id);
+
+    @ApiOperation(value = "User update operation")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Success user updated"),
+            @ApiResponse(code = 400, message = "Missing required field, or an error on validation field rules")
+    })
+    MessageDTO update(Long id, UserDTO userToUpdateDTO);
 }
