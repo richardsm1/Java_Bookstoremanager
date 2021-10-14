@@ -9,6 +9,7 @@ import com.rsm.bookstoremanager.users.mapper.UserMapper;
 import com.rsm.bookstoremanager.users.repository.UserRepository;
 import com.rsm.bookstoremanager.users.utils.MessageDTOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -23,14 +24,20 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    private PasswordEncoder passwordEncoder;
+
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public MessageDTO create(UserDTO userToCreateDTO) {
         verifyAndGetIfExists(userToCreateDTO.getEmail(), userToCreateDTO.getUsername());
         User userToCreate = userMapper.toModel(userToCreateDTO);
+
+        userToCreate.setPassword(passwordEncoder.encode(userToCreate.getPassword()));
+
         User createdUser = userRepository.save(userToCreate);
         return creationMessage(createdUser, "created");
     }
@@ -40,6 +47,8 @@ public class UserService {
 
         userToUpdateDTO.setId(foundUser.getId());
         User userToUpdate = userMapper.toModel(userToUpdateDTO);
+
+        userToUpdate.setPassword(passwordEncoder.encode(userToUpdate.getPassword()));
         userToUpdate.setCreatedDate(foundUser.getCreatedDate());
 
         User updatedUser = userRepository.save(userToUpdate);
