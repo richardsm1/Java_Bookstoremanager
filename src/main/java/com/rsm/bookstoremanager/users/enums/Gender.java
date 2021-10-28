@@ -1,4 +1,4 @@
-package com.rsm.bookstoremanager.users.entity;
+package com.rsm.bookstoremanager.users.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
